@@ -1,22 +1,58 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Book } from '../../../app/models';
+import { baseUrl } from '../../../utility/constants';
 
 const BookDetails = () => {
+  const { bookId } = useParams<{ bookId: string }>();
+  const [book, setBook] = useState<Book | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    console.log('id :', bookId);
+    if (bookId) {
+      axios
+        .get(`${baseUrl}/books/${bookId}`)
+        .then((response) => setBook(response.data))
+        .catch((error) => console.log(error))
+        .finally(() => setLoading(false));
+    }
+  }, [bookId]);
+
+  if (loading) return <h3>Loading ...</h3>;
+  if (!book) return <h3>Product not found</h3>;
+
   return (
     <div className="container pt-4 pt-md-5">
       <div className="row">
         <div className="col-7">
-          <h2 className="text-success">NAME</h2>
+          <h2 className="text-success">{book.title}</h2>
           <span>
             <span
               className="badge bg-dark"
               pt-2
               style={{ height: '40px', fontSize: '20px' }}
             >
-              Category
+              {book.category.name}
             </span>
           </span>
-          <p style={{ fontSize: '20px' }} className="pt-2">
-            Description
+          <span>
+            {book.authors.map((author) => (
+              <span
+                className="badge bg-light text-dark"
+                pt-2
+                style={{ height: '40px', fontSize: '20px' }}
+              >
+                {author.fullName}
+              </span>
+            ))}
+          </span>
+          <p style={{ fontSize: '20px', color: '#344e41' }} className="pt-2">
+            Summary
+          </p>
+          <p style={{ fontSize: '15px' }} className="pt-2">
+            {book.summary}
           </p>
           <span className="h3">$10</span> &nbsp;&nbsp;&nbsp;
           <span
@@ -47,7 +83,7 @@ const BookDetails = () => {
           </div>
         </div>
         <div className="col-5">
-          <img src="https://placehold.co/400" width="100%" alt="" />
+          <img src={book.imageUrl} width="100%" alt={book.title} />
         </div>
       </div>
     </div>
