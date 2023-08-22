@@ -1,4 +1,5 @@
-import BookList from './BookList';
-import BookCard from './BookCard';
+import BookList from './components/BookList';
+import BookCard from './components/BookCard';
+import BookDetails from './pages/BookDetails';
 
-export { BookList, BookCard };
+export { BookList, BookCard, BookDetails };

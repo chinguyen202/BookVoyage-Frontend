@@ -1,4 +1,5 @@
-import { Book } from '../../app/models';
+import { Link } from 'react-router-dom';
+import { Book } from '../../../app/models';
 
 interface Props {
   book: Book;
@@ -12,12 +13,14 @@ const BookCard = (props: Props) => {
         <div className="card-body pt-2">
           <div className="row col-10 offset-1 p-4">
             {/* book image  */}
-            <img
-              src={props.book.imageUrl}
-              style={{ borderRadius: '5%' }}
-              alt={props.book.title}
-              className="w-100 mt-5 image-box"
-            />
+            <Link to={`/books/${props.book.id}`}>
+              <img
+                src={props.book.imageUrl}
+                style={{ borderRadius: '5%' }}
+                alt={props.book.title}
+                className="w-100 mt-5 image-box"
+              />
+            </Link>
           </div>
 
           <i
@@ -34,9 +37,12 @@ const BookCard = (props: Props) => {
           ></i>
 
           <div className="text-center">
-            <p className="card-title m-0 text-success fs-3">
-              {props.book.title}
-            </p>
+            <Link
+              to={`/books/${props.book.id}`}
+              style={{ textDecoration: 'none', color: '#bc6c25' }}
+            >
+              <p className="card-title m-0 fs-3">{props.book.title}</p>
+            </Link>
             <p className="badge bg-secondary" style={{ fontSize: '12px' }}>
               {props.book.category.name}
             </p>

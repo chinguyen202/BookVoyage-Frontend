@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Book } from '../../app/models';
-import { BookCard } from './index';
+import { Book } from '../../../app/models';
+import { BookCard } from '../index';
 
 const BookList = () => {
   const [books, setBooks] = useState<Book[]>();
