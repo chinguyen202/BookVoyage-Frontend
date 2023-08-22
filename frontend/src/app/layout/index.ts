@@ -1,3 +1,5 @@
-import Home from './Home';
+import Home from './pages/Home';
+import NotFound from './pages/NotFound';
+import App from './App';
 
-export { Home };
+export { Home, NotFound, App };

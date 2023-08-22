@@ -1,10 +1,14 @@
+import { NavLink } from 'react-router-dom';
+
 let logo = require('../../../assets/images/bookvoyage.png');
 
 const Header = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <img src={logo} style={{ height: '40px' }} className="m-1" />
+        <NavLink className="nav-link" to="/">
+          <img src={logo} style={{ height: '50px' }} className="m-1" />
+        </NavLink>
         <button
           className="navbar-toggler"
           type="button"
@@ -19,10 +23,15 @@ const Header = () => {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            <li className="nav-item active">
-              <a className="nav-link" href="#">
+            <li className="nav-item ">
+              <NavLink className="nav-link" aria-current="page" to="/">
                 Home
-              </a>
+              </NavLink>
+            </li>
+            <li className="nav-item ">
+              <NavLink className="nav-link" aria-current="page" to="/cart">
+                <i className="bi bi-cart"></i>
+              </NavLink>
             </li>
 
             <li className="nav-item dropdown">
