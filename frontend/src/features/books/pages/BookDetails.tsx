@@ -1,67 +1,65 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Book } from '../../../app/models';
-import { baseUrl } from '../../../utility/constants';
+import { useDispatch } from 'react-redux';
+
+import { Author } from '../../../app/models';
+import { useGetBookByIdQuery } from '../api/bookApi';
+import { setBook } from '../../../storage/redux/bookSlice';
+import { Loading } from '../../../app/layout';
 
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
-  const [book, setBook] = useState<Book | null>(null);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const { data, isLoading } = useGetBookByIdQuery(bookId);
 
   useEffect(() => {
-    console.log('id :', bookId);
-    if (bookId) {
-      axios
-        .get(`${baseUrl}/books/${bookId}`)
-        .then((response) => setBook(response.data))
-        .catch((error) => console.log(error))
-        .finally(() => setLoading(false));
+    if (!isLoading) {
+      dispatch(setBook(data));
     }
-  }, [bookId]);
+  }, [isLoading]);
 
-  if (loading) return <h3>Loading ...</h3>;
-  if (!book) return <h3>Product not found</h3>;
+  if (isLoading) return <Loading />;
+  if (!data) return <h3>Book not found</h3>;
 
   return (
     <div className="container pt-4 pt-md-5">
       <div className="row">
         <div className="col-7">
-          <h2 className="text-success">{book.title}</h2>
+          <h2 className="text-success">{data.title}</h2>
           <span>
             <span
               className="badge bg-dark"
               pt-2
               style={{ height: '40px', fontSize: '20px' }}
             >
-              {book.category.name}
+              {data.category.name}
             </span>
           </span>
           <span>
-            {book.authors.map((author) => (
+            {data.authors.map((author: Author) => (
               <span
                 className="badge bg-light text-dark"
                 pt-2
                 style={{ height: '40px', fontSize: '20px' }}
               >
-                {author.fullName}
+                {data.fullName}
               </span>
             ))}
           </span>
           <ul className="list-group">
-            <li className="list-group-item">ISBN: {book.isbn}</li>
-            {book.authors.map((author) => (
+            <li className="list-group-item">ISBN: {data.isbn}</li>
+            {data.authors.map((author: Author) => (
               <li className="list-group-item">Publisher: {author.publisher}</li>
             ))}
             <li className="list-group-item">
-              Published year: {book.yearOfPublished}
+              Published year: {data.yearOfPublished}
             </li>
           </ul>
           <p style={{ fontSize: '20px', color: '#344e41' }} className="pt-2">
             Summary
           </p>
           <p style={{ fontSize: '15px' }} className="pt-2">
-            {book.summary}
+            {data.summary}
           </p>
           <span className="h3">$10</span> &nbsp;&nbsp;&nbsp;
           <span
@@ -92,7 +90,7 @@ const BookDetails = () => {
           </div>
         </div>
         <div className="col-5">
-          <img src={book.imageUrl} width="100%" alt={book.title} />
+          <img src={data.imageUrl} width="100%" alt={data.title} />
         </div>
       </div>
     </div>
