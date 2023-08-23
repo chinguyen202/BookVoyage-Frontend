@@ -1,5 +1,9 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+
 import { Book } from '../../../app/models';
+import { useUpsertShoppingCartMutation } from '../../shoppingCart/api/shoppingCartApi';
+import { MiniLoader } from '../../../app/layout';
 
 interface Props {
   book: Book;
@@ -7,6 +11,22 @@ interface Props {
 
 // Component to display each book info
 const BookCard = (props: Props) => {
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [upsertShoppingCart] = useUpsertShoppingCartMutation();
+
+  const handleAddToCart = async (bookId: string) => {
+    setIsAddingToCart(true);
+    const payload = {
+      buyerId: '858ae18a-fd9e-4125-bc32-5bf2d4c97475',
+      bookId: bookId,
+      quantity: 1,
+    };
+    if (payload !== null) {
+      await upsertShoppingCart(payload);
+    }
+    setIsAddingToCart(false);
+  };
+
   return (
     <div className="col-md-4 col-12 p-4">
       <div className="card" style={{ boxShadow: '0 1px 7px 0 rgb(0 0 0 /50%' }}>
@@ -22,19 +42,31 @@ const BookCard = (props: Props) => {
               />
             </Link>
           </div>
-
-          <i
-            className="bi bi-cart-plus btn btn-outline-danger"
-            style={{
-              position: 'absolute',
-              top: '15px',
-              right: '15px',
-              padding: '5px 10px',
-              borderRadius: '3px',
-              outline: 'none !important',
-              cursor: 'pointer',
-            }}
-          ></i>
+          {isAddingToCart ? (
+            <div
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+              }}
+            >
+              <MiniLoader />
+            </div>
+          ) : (
+            <i
+              onClick={() => handleAddToCart(props.book.id)}
+              className="bi bi-cart-plus btn btn-outline-danger"
+              style={{
+                position: 'absolute',
+                top: '15px',
+                right: '15px',
+                padding: '5px 10px',
+                borderRadius: '3px',
+                outline: 'none !important',
+                cursor: 'pointer',
+              }}
+            ></i>
+          )}
 
           <div className="text-center">
             <Link

@@ -2,8 +2,22 @@ import React from 'react';
 
 const Loading = () => {
   return (
-    <div className="d-flex justify-content-center" style={{ width: '100%' }}>
-      <div>Loading....</div>
+    <div
+      style={{
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        className="spinner-border text-warning"
+        style={{ width: '4rem', height: '4rem' }}
+      ></div>
     </div>
   );
 };

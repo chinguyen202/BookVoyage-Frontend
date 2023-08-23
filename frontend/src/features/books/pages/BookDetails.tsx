@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Author } from '../../../app/models';
 import { useGetBookByIdQuery } from '../api/bookApi';
 import { setBook } from '../../../storage/redux/bookSlice';
-import { Loading, NotFound } from '../../../app/layout';
+import { Loading, MiniLoader, NotFound } from '../../../app/layout';
 import { useUpsertShoppingCartMutation } from '../../shoppingCart/api/shoppingCartApi';
 
 // USER ID - 858ae18a-fd9e-4125-bc32-5bf2d4c97475
@@ -41,18 +41,13 @@ const BookDetails = () => {
 
   const handleAddToCart = async (bookId: string) => {
     setIsAddingToCart(true);
-
     const payload = {
       buyerId: '858ae18a-fd9e-4125-bc32-5bf2d4c97475',
       bookId: bookId,
       quantity: quantity,
     };
-
-    console.log('Request Payload:', payload);
-
     if (payload !== null) {
-      const response = await upsertShoppingCart(payload);
-      console.log('Response:', response);
+      await upsertShoppingCart(payload);
     }
     setIsAddingToCart(false);
   };
@@ -116,12 +111,18 @@ const BookDetails = () => {
           </span>
           <div className="row pt-4">
             <div className="col-5">
-              <button
-                className="btn btn-success form-control"
-                onClick={() => handleAddToCart(data.id)}
-              >
-                Add to cart
-              </button>
+              {isAddingToCart ? (
+                <button disabled className="btn btn-success form-control">
+                  <MiniLoader />
+                </button>
+              ) : (
+                <button
+                  className="btn btn-success form-control"
+                  onClick={() => handleAddToCart(data.id)}
+                >
+                  Add to cart
+                </button>
+              )}
             </div>
             <div className="col-5">
               <button
