@@ -4,7 +4,7 @@ import { baseUrl } from '../../../utility/constants';
 const bookApi = createApi({
   reducerPath: 'bookApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/api',
+    baseUrl: baseUrl,
   }),
   tagTypes: ['Books'],
   endpoints: (builder) => ({
