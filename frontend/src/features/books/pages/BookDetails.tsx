@@ -48,6 +48,15 @@ const BookDetails = () => {
               </span>
             ))}
           </span>
+          <ul className="list-group">
+            <li className="list-group-item">ISBN: {book.isbn}</li>
+            {book.authors.map((author) => (
+              <li className="list-group-item">Publisher: {author.publisher}</li>
+            ))}
+            <li className="list-group-item">
+              Published year: {book.yearOfPublished}
+            </li>
+          </ul>
           <p style={{ fontSize: '20px', color: '#344e41' }} className="pt-2">
             Summary
           </p>
