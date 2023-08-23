@@ -59,8 +59,7 @@ const BookDetails = () => {
           <h2 className="text-success">{data.title}</h2>
           <span>
             <span
-              className="badge bg-dark"
-              pt-2
+              className="badge bg-dark pt-2"
               style={{ height: '40px', fontSize: '20px' }}
             >
               {data.category.name}
@@ -69,8 +68,8 @@ const BookDetails = () => {
           <span>
             {data.authors.map((author: Author) => (
               <span
-                className="badge bg-light text-dark"
-                pt-2
+                key={author.id}
+                className="badge bg-light text-dark pt-2"
                 style={{ height: '40px', fontSize: '20px' }}
               >
                 {data.fullName}
@@ -80,7 +79,9 @@ const BookDetails = () => {
           <ul className="list-group">
             <li className="list-group-item">ISBN: {data.isbn}</li>
             {data.authors.map((author: Author) => (
-              <li className="list-group-item">Publisher: {author.publisher}</li>
+              <li className="list-group-item" key={author.id}>
+                Publisher: {author.publisher}
+              </li>
             ))}
             <li className="list-group-item">
               Published year: {data.yearOfPublished}
