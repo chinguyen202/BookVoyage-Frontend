@@ -7,6 +7,7 @@ import { useGetBookByIdQuery } from '../api/bookApi';
 import { setBook } from '../../../storage/redux/bookSlice';
 import { Loading, MiniLoader, NotFound } from '../../../app/layout';
 import { useUpsertShoppingCartMutation } from '../../shoppingCart/api/shoppingCartApi';
+import { toastNotify } from '../../../utility';
 
 // USER ID - 858ae18a-fd9e-4125-bc32-5bf2d4c97475
 const BookDetails = () => {
@@ -47,7 +48,10 @@ const BookDetails = () => {
       quantity: quantity,
     };
     if (payload !== null) {
-      await upsertShoppingCart(payload);
+      const response = await upsertShoppingCart(payload);
+      if (response) {
+        toastNotify('Added book to cart!');
+      }
     }
     setIsAddingToCart(false);
   };
@@ -114,7 +118,7 @@ const BookDetails = () => {
             <div className="col-5">
               {isAddingToCart ? (
                 <button disabled className="btn btn-success form-control">
-                  <MiniLoader />
+                  <MiniLoader size={2} />
                 </button>
               ) : (
                 <button

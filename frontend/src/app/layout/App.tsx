@@ -25,13 +25,13 @@ const App = () => {
       const currentUser: User = decodeJwtToken(localToken);
       dispatch(setLoggedInUser(currentUser));
     }
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isLoading) {
       dispatch(setShoppingCart(data.cartItems));
     }
-  }, [data]);
+  }, [data, isLoading, dispatch]);
 
   return (
     <div>

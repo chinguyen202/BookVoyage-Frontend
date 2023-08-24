@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Book } from '../../../app/models';
 import { useUpsertShoppingCartMutation } from '../../shoppingCart/api/shoppingCartApi';
 import { MiniLoader } from '../../../app/layout';
+import { toastNotify } from '../../../utility';
 
 interface Props {
   book: Book;
@@ -22,7 +23,10 @@ const BookCard = (props: Props) => {
       quantity: 1,
     };
     if (payload !== null) {
-      await upsertShoppingCart(payload);
+      const response: any = await upsertShoppingCart(payload);
+      if (response) {
+        toastNotify('Added book to cart!');
+      }
     }
     setIsAddingToCart(false);
   };

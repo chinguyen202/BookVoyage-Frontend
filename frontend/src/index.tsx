@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../src/app/layout/style.css';
 import { App } from './app/layout';
 import { store } from './storage';
@@ -14,6 +16,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <BrowserRouter>
+      <ToastContainer />
       <App />
     </BrowserRouter>
   </Provider>

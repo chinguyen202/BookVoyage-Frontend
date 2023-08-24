@@ -1,9 +1,17 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { inputHelper } from '../../../utility';
-import { useRegisterUserMutation } from '../api/authApi';
-import { UserFormValues } from '../../../app/models/user';
+import { ChangeEvent, FormEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
+import { decodeJwtToken, inputHelper, toastNotify } from '../../../utility';
+import { useRegisterUserMutation } from '../api/authApi';
+import { User, UserFormValues } from '../../../app/models/user';
+import { setLoggedInUser } from '../../../storage/redux/authSlice';
+import { Loading } from '../../../app/layout';
+
+// Register page
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [registerUser] = useRegisterUserMutation();
   const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
@@ -29,18 +37,32 @@ const Register = () => {
       email: userInput.email,
       password: userInput.password,
     };
+    // Send the request to API
     const response = await registerUser(user);
-    console.log('REGISTER DATA: ', user);
-    if (response) {
-      console.log('REGISTER RESPONSE:', response);
-    } else {
-      console.log('REGISTER ERROR:', response);
+    if ('data' in response) {
+      // If the request is success
+      if (response.data.isSuccess) {
+        toastNotify('Registration successful!');
+        // Extract the token from response value
+        const { token } = response.data.value;
+        const loggedInUser: User = decodeJwtToken(token);
+        // Save token to local storage
+        localStorage.setItem('token', token);
+        // Add user info for redux store
+        dispatch(setLoggedInUser(loggedInUser));
+        // redirect to home
+        navigate('/');
+      } else {
+        // In case of error
+        toastNotify(response.data.error, 'error');
+      }
     }
     setLoading(false);
   };
 
   return (
     <div className="container text-center">
+      {loading && <Loading />}
       <form method="post" onSubmit={handleSubmit}>
         <h1 className="mt-5"> Register</h1>
         <div className="col-sm-6 offset-sm-3 col-xs-12 ,t-4">

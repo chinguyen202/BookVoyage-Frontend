@@ -1,13 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
 
 import { useLoginUserMutation } from '../api/authApi';
 import { decodeJwtToken, inputHelper } from '../../../utility';
 import { UserFormValues, User } from '../../../app/models';
 import { setLoggedInUser } from '../../../storage/redux/authSlice';
-import { Loading, MiniLoader } from '../../../app/layout';
+import { Loading } from '../../../app/layout';
 
 // Page for login
 const Login = () => {
