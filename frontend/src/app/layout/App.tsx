@@ -8,6 +8,7 @@ import { useGetCartsByUserIdQuery } from '../../features/shoppingCart/api/shoppi
 import { useEffect } from 'react';
 import { setShoppingCart } from '../../storage/redux/shoppingCartSlice';
 import { ShoppingCart } from '../../features/shoppingCart';
+import { Login, Register } from '../../features/auth';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,8 @@ const App = () => {
           <Route path="/" element={<Home />}></Route>
           <Route path="/books/:bookId" element={<BookDetails />}></Route>
           <Route path="/cart" element={<ShoppingCart />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/*" element={<NotFound />}></Route>
         </Routes>
       </div>
