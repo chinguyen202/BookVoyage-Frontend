@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Home, NotFound } from './index';
 import { Footer, Header } from './components';
 import { BookDetails } from '../../features/books';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useGetCartsByUserIdQuery } from '../../features/shoppingCart/api/shoppingCartApi';
 import { useEffect } from 'react';
 import { setShoppingCart } from '../../storage/redux/shoppingCartSlice';
@@ -12,12 +12,12 @@ import { Login, Register } from '../../features/auth';
 import { User } from '../models';
 import { decodeJwtToken } from '../../utility';
 import { setLoggedInUser } from '../../storage/redux/authSlice';
+import { RootState } from '../../storage/redux/store';
 
 const App = () => {
   const dispatch = useDispatch();
-  const { data, isLoading } = useGetCartsByUserIdQuery(
-    '858ae18a-fd9e-4125-bc32-5bf2d4c97475'
-  );
+  const userData = useSelector((state: RootState) => state.authStore);
+  const { data, isLoading } = useGetCartsByUserIdQuery(userData.id);
 
   useEffect(() => {
     const localToken = localStorage.getItem('token');
@@ -28,10 +28,10 @@ const App = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!isLoading) {
+    if (!isLoading && data?.cartItems) {
       dispatch(setShoppingCart(data.cartItems));
     }
-  }, [data, isLoading, dispatch]);
+  }, [isLoading, dispatch, data]);
 
   return (
     <div>

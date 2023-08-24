@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { CartItem } from '../../../app/models';
+import { CartItem, User } from '../../../app/models';
 import { RootState } from '../../../storage/redux/store';
 import {
   removeCartItem,
@@ -13,6 +13,9 @@ const CartItemList = () => {
   const shoppingCartFromStore: CartItem[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
+  const currentUser: User = useSelector(
+    (state: RootState) => state.authStore ?? null
+  );
   if (!shoppingCartFromStore) {
     return <div>Shopping cart is empty</div>;
   }
@@ -24,7 +27,7 @@ const CartItemList = () => {
     ) {
       // Update to server
       updateShoppingCart({
-        buyerId: '858ae18a-fd9e-4125-bc32-5bf2d4c97475',
+        buyerId: currentUser.id,
         bookId: cartItem.bookId,
         quantity: 0,
       });
@@ -33,7 +36,7 @@ const CartItemList = () => {
     } else {
       // Update to server
       updateShoppingCart({
-        buyerId: '858ae18a-fd9e-4125-bc32-5bf2d4c97475',
+        buyerId: currentUser.id,
         bookId: cartItem.bookId,
         quantity: updateQuantityBy,
       });

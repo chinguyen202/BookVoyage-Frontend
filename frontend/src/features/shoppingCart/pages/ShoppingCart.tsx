@@ -1,4 +1,5 @@
 import { CartItemList, CartSummary } from '../index';
+import { withAuth } from '../../../HOC';
 
 const ShoppingCart = () => {
   return (
@@ -14,4 +15,4 @@ const ShoppingCart = () => {
   );
 };
 
-export default ShoppingCart;
+export default withAuth(ShoppingCart);

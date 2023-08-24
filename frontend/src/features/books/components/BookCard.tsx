@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { Book } from '../../../app/models';
 import { useUpsertShoppingCartMutation } from '../../shoppingCart/api/shoppingCartApi';
 import { MiniLoader } from '../../../app/layout';
 import { toastNotify } from '../../../utility';
+import { RootState } from '../../../storage/redux/store';
 
 interface Props {
   book: Book;
@@ -12,13 +14,19 @@ interface Props {
 
 // Component to display each book info
 const BookCard = (props: Props) => {
+  const navigate = useNavigate();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [upsertShoppingCart] = useUpsertShoppingCartMutation();
+  const currentUser = useSelector((state: RootState) => state.authStore);
 
   const handleAddToCart = async (bookId: string) => {
+    if (!currentUser.id) {
+      navigate('/login');
+      return;
+    }
     setIsAddingToCart(true);
     const payload = {
-      buyerId: '858ae18a-fd9e-4125-bc32-5bf2d4c97475',
+      buyerId: currentUser.id,
       bookId: bookId,
       quantity: 1,
     };

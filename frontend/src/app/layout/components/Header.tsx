@@ -14,14 +14,15 @@ let logo = require('../../../assets/images/logo.png');
 const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // get the shopping cart from redux
   const shoppingCartFromStore: CartItem[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
-
+  // get the log in user data
   const currentUser: User = useSelector(
     (state: RootState) => state.authStore ?? null
   );
-
+  // log out
   const handleLogout = () => {
     localStorage.removeItem('token');
     dispatch(setLoggedInUser({ ...userInitialState }));
@@ -53,9 +54,7 @@ const Header = () => {
             <li className="nav-item ">
               <NavLink className="nav-link" aria-current="page" to="/cart">
                 <i className="bi bi-cart"></i> {''}
-                {shoppingCartFromStore?.length
-                  ? `(${shoppingCartFromStore.length})`
-                  : ''}
+                {currentUser.id && `(${shoppingCartFromStore.length})`}
               </NavLink>
             </li>
 

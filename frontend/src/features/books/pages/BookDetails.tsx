@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { Author } from '../../../app/models';
 import { useGetBookByIdQuery } from '../api/bookApi';
@@ -8,8 +8,9 @@ import { setBook } from '../../../storage/redux/bookSlice';
 import { Loading, MiniLoader, NotFound } from '../../../app/layout';
 import { useUpsertShoppingCartMutation } from '../../shoppingCart/api/shoppingCartApi';
 import { toastNotify } from '../../../utility';
+import { RootState } from '../../../storage/redux/store';
 
-// USER ID - 858ae18a-fd9e-4125-bc32-5bf2d4c97475
+// Display detail information of the book
 const BookDetails = () => {
   const { bookId } = useParams<{ bookId: string }>();
   const dispatch = useDispatch();
@@ -18,16 +19,18 @@ const BookDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [upsertShoppingCart] = useUpsertShoppingCartMutation();
+  const currentUser = useSelector((state: RootState) => state.authStore);
 
   useEffect(() => {
     if (!isLoading) {
       dispatch(setBook(data));
     }
-  }, [isLoading]);
+  }, [isLoading, dispatch, data]);
 
   if (isLoading) return <Loading />;
   if (!data) return <NotFound />;
 
+  // Handle the counter
   const handleQuantity = (counter: number) => {
     let newQuantity = quantity + counter;
     if (newQuantity === 0) {
@@ -40,17 +43,27 @@ const BookDetails = () => {
     return;
   };
 
+  // Add to cart
   const handleAddToCart = async (bookId: string) => {
+    // Check if the user is logged in, if not, redirect to log in page
+    if (!currentUser.id) {
+      navigate('/login');
+      return;
+    }
+    // If the user login, process to add the item to cart
     setIsAddingToCart(true);
     const payload = {
-      buyerId: '858ae18a-fd9e-4125-bc32-5bf2d4c97475',
+      buyerId: currentUser.id,
       bookId: bookId,
       quantity: quantity,
     };
     if (payload !== null) {
-      const response = await upsertShoppingCart(payload);
+      const response: any = await upsertShoppingCart(payload);
       if (response) {
         toastNotify('Added book to cart!');
+      }
+      if (response.data.error) {
+        toastNotify(response.data.error, 'error');
       }
     }
     setIsAddingToCart(false);
