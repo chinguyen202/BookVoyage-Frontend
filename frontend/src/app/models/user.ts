@@ -1,6 +1,9 @@
 export interface User {
   userName: string;
-  token: string;
+  token?: string;
+  id?: string;
+  email?: string;
+  role?: string;
 }
 
 export interface UserFormValues {

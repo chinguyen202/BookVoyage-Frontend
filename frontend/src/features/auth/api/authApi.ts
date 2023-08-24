@@ -7,11 +7,7 @@ const authApi = createApi({
     baseUrl: baseUrl,
   }),
   endpoints: (builder) => ({
-    getCurrentUser: builder.query({
-      query: () => ({
-        url: 'users',
-      }),
-    }),
+    // Register user
     registerUser: builder.mutation({
       query: (payload) => ({
         url: `users/register`,
@@ -22,6 +18,7 @@ const authApi = createApi({
         },
       }),
     }),
+    // Login
     loginUser: builder.mutation({
       query: (payload) => ({
         url: `auth/login`,
@@ -35,9 +32,5 @@ const authApi = createApi({
   }),
 });
 
-export const {
-  useRegisterUserMutation,
-  useLoginUserMutation,
-  useGetCurrentUserQuery,
-} = authApi;
+export const { useRegisterUserMutation, useLoginUserMutation } = authApi;
 export default authApi;

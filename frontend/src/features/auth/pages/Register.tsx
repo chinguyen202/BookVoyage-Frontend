@@ -13,6 +13,7 @@ const Register = () => {
     email: '',
     password: '',
   });
+
   const handleUserInput = (e: ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, userInput);
     setUserInput(tempData);
@@ -35,7 +36,6 @@ const Register = () => {
     } else {
       console.log('REGISTER ERROR:', response);
     }
-
     setLoading(false);
   };
 
