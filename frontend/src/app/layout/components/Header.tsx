@@ -1,15 +1,33 @@
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { CartItem } from '../../models';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { CartItem, User } from '../../models';
 import { RootState } from '../../../storage/redux/store';
+import {
+  setLoggedInUser,
+  userInitialState,
+} from '../../../storage/redux/authSlice';
 
 // Website's logo
 let logo = require('../../../assets/images/logo.png');
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const shoppingCartFromStore: CartItem[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
+
+  const currentUser: User = useSelector(
+    (state: RootState) => state.authStore ?? null
+  );
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    dispatch(setLoggedInUser({ ...userInitialState }));
+    navigate('/');
+  };
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -74,28 +92,52 @@ const Header = () => {
             </div>
 
             <div className="d-flex pt-2" style={{ marginLeft: 'auto' }}>
-              <li className="nav-item">
-                <button
-                  className="btn btn-warning btn-outlined rounded-pill text-dark mx-2"
-                  style={{ border: 'none', height: '40px', width: '100px' }}
-                >
-                  Logout
-                </button>
-              </li>
-              <li className="nav-item text-white">
-                <NavLink className="nav-link" to="/register">
-                  Register
-                </NavLink>
-              </li>
-              <li className="nav-item text-white">
-                <NavLink
-                  className="btn btn-secondary btn-outlined rounded-pill text-white mx-2"
-                  style={{ border: 'none', height: '40px', width: '100px' }}
-                  to="/login"
-                >
-                  Login
-                </NavLink>
-              </li>
+              {/* If user is logged in */}
+              {currentUser.id && (
+                <>
+                  <li className="nav-item">
+                    <button
+                      className="nav-link active"
+                      style={{
+                        cursor: 'pointer',
+                        background: 'transparent',
+                        border: 0,
+                        marginLeft: '10px',
+                      }}
+                    >
+                      {currentUser.userName.toUpperCase()}
+                    </button>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      onClick={handleLogout}
+                      className="btn btn-warning btn-outlined rounded-pill text-dark mx-2"
+                      style={{ border: 'none', height: '40px', width: '100px' }}
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              )}
+              {/* If user is not logged in */}
+              {!currentUser.id && (
+                <>
+                  <li className="nav-item text-white">
+                    <NavLink className="nav-link" to="/register">
+                      Register
+                    </NavLink>
+                  </li>
+                  <li className="nav-item text-white">
+                    <NavLink
+                      className="btn btn-secondary btn-outlined rounded-pill text-white mx-2"
+                      style={{ border: 'none', height: '40px', width: '100px' }}
+                      to="/login"
+                    >
+                      Login
+                    </NavLink>
+                  </li>
+                </>
+              )}
             </div>
           </ul>
         </div>

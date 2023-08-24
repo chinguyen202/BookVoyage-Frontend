@@ -9,6 +9,9 @@ import { useEffect } from 'react';
 import { setShoppingCart } from '../../storage/redux/shoppingCartSlice';
 import { ShoppingCart } from '../../features/shoppingCart';
 import { Login, Register } from '../../features/auth';
+import { User } from '../models';
+import { decodeJwtToken } from '../../utility';
+import { setLoggedInUser } from '../../storage/redux/authSlice';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -17,8 +20,15 @@ const App = () => {
   );
 
   useEffect(() => {
+    const localToken = localStorage.getItem('token');
+    if (localToken) {
+      const currentUser: User = decodeJwtToken(localToken);
+      dispatch(setLoggedInUser(currentUser));
+    }
+  }, []);
+
+  useEffect(() => {
     if (!isLoading) {
-      console.log('DATA: ', data);
       dispatch(setShoppingCart(data.cartItems));
     }
   }, [data]);

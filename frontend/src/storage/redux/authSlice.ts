@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { User } from '../../app/models';
 
-const initialState: User = {
+export const userInitialState: User = {
   userName: '',
   id: '',
   email: '',
@@ -10,7 +10,7 @@ const initialState: User = {
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState: initialState,
+  initialState: userInitialState,
   reducers: {
     // Reducer for setting the logged-in user's information
     setLoggedInUser: (state, action) => {
