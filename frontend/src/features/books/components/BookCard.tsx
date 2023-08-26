@@ -32,8 +32,10 @@ const BookCard = (props: Props) => {
     };
     if (payload !== null) {
       const response: any = await upsertShoppingCart(payload);
-      if (response) {
+      if ('data' in response) {
         toastNotify('Added book to cart!');
+      } else {
+        toastNotify('Error when add book to cart!', 'error');
       }
     }
     setIsAddingToCart(false);

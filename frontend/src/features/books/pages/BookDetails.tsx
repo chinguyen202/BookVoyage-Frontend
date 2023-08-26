@@ -59,11 +59,12 @@ const BookDetails = () => {
     };
     if (payload !== null) {
       const response: any = await upsertShoppingCart(payload);
-      if (response) {
+      if ('data' in response) {
+        // console.log('BOOK DETAIL RESPONSE: ', response);
         toastNotify('Added book to cart!');
-      }
-      if (response.data.error) {
-        toastNotify(response.data.error, 'error');
+      } else {
+        console.log('NOT SUCCESS :', response);
+        toastNotify(response, 'error');
       }
     }
     setIsAddingToCart(false);
@@ -83,20 +84,20 @@ const BookDetails = () => {
             </span>
           </span>
           <span>
-            {data.authors.map((author: Author) => (
+            {data.authors.map((author: Author, index: number) => (
               <span
-                key={author.id}
+                key={index}
                 className="badge bg-light text-dark pt-2"
                 style={{ height: '40px', fontSize: '20px' }}
               >
-                {data.fullName}
+                {author.fullName}
               </span>
             ))}
           </span>
           <ul className="list-group">
             <li className="list-group-item">ISBN: {data.isbn}</li>
-            {data.authors.map((author: Author) => (
-              <li className="list-group-item" key={author.id}>
+            {data.authors.map((author: Author, index: number) => (
+              <li className="list-group-item" key={index}>
                 Publisher: {author.publisher}
               </li>
             ))}

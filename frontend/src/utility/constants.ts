@@ -4,3 +4,10 @@ export const Roles = {
   ADMIN: 'admin',
   CUSTOMER: 'customer',
 };
+
+export const OrderStatus = {
+  PENDING: 'Pending',
+  PROCESSED: 'Processed',
+  CONFIRM: 'Confirmed',
+  CANCELLED: 'Cancelled',
+};

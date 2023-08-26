@@ -13,6 +13,7 @@ import { User } from '../models';
 import { decodeJwtToken } from '../../utility';
 import { setLoggedInUser } from '../../storage/redux/authSlice';
 import { RootState } from '../../storage/redux/store';
+import { Checkout } from '../../features/checkout';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/*" element={<NotFound />}></Route>
+          <Route path="/checkout" element={<Checkout />}></Route>
         </Routes>
       </div>
       <Footer />
