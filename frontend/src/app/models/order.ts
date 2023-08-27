@@ -27,11 +27,6 @@ export interface ShippingAddress {
 export interface OrderItem {
   price: number;
   quantity: number;
-  bookOrderedItem: BookOrderedItem;
-  id: string;
-}
-
-export interface BookOrderedItem {
   bookId: string;
   bookName: string;
   imageUrl: string;

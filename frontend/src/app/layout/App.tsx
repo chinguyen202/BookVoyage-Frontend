@@ -7,12 +7,11 @@ import { Footer, Header } from './components';
 import { BookDetails } from '../../features/books';
 import { useGetCartsByUserQuery } from '../../features/shoppingCart/api/shoppingCartApi';
 import { setShoppingCart } from '../../storage/redux/shoppingCartSlice';
-import { ShoppingCart } from '../../features/shoppingCart';
+import { Checkout, ShoppingCart } from '../../features/shoppingCart';
 import { Login, Register } from '../../features/auth';
 import { User } from '../models';
 import { decodeJwtToken } from '../../utility';
 import { setLoggedInUser } from '../../storage/redux/authSlice';
-import { Checkout } from '../../features/checkout';
 import { MyOrders, OrderDetail } from '../../features/orders';
 
 const App = () => {
