@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../../../utility';
+import { getTokenFromLocalStorage } from '../../../utility/tokenHelper';
 
 const authorApi = createApi({
   reducerPath: 'authorApi',
@@ -22,15 +23,43 @@ const authorApi = createApi({
       }),
       providesTags: ['Authors'],
     }),
-    // Create a author
+    // Create an author
     createAuthor: builder.mutation({
-      query: () => ({
-        url: '/authors',
+      query: (payload) => ({
+        url: 'authors',
         method: 'POST',
+        body: payload,
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+        invalidatesTags: ['Authors'],
       }),
     }),
-    // Update a author
-    // Delete a author
+    // Update aauthor
+    updateAuthor: builder.mutation({
+      query: (payload) => ({
+        url: `authors/${payload.id}`,
+        method: 'PUT',
+        body: payload.name,
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+        invalidatesTags: ['Authors'],
+      }),
+    }),
+    // Delete author
+    deleteAuthor: builder.mutation({
+      query: (id) => ({
+        url: `authors/${id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+        invalidatesTags: ['Authors'],
+      }),
+    }),
   }),
 });
 
@@ -38,5 +67,7 @@ export const {
   useGetAuthorsQuery,
   useGetAuthorByIdQuery,
   useCreateAuthorMutation,
+  useDeleteAuthorMutation,
+  useUpdateAuthorMutation,
 } = authorApi;
 export default authorApi;

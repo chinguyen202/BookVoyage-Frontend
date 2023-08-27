@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../../../utility/constants';
+import { getTokenFromLocalStorage } from '../../../utility/tokenHelper';
 
 const categoryApi = createApi({
   reducerPath: 'categoryApi',
@@ -23,8 +24,42 @@ const categoryApi = createApi({
       providesTags: ['Categories'],
     }),
     // Create a category
+    createCategory: builder.mutation({
+      query: (payload) => ({
+        url: 'categories',
+        method: 'POST',
+        body: payload,
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+        invalidatesTags: ['Categories'],
+      }),
+    }),
     // Update a category
+    updateCategory: builder.mutation({
+      query: (payload) => ({
+        url: `categories/${payload.id}`,
+        method: 'PUT',
+        body: payload.name,
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+        invalidatesTags: ['Categories'],
+      }),
+    }),
     // Delete a category
+    deleteCategory: builder.mutation({
+      query: (id) => ({
+        url: `categories/${id}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+        invalidatesTags: ['Categories'],
+      }),
+    }),
   }),
 });
 
