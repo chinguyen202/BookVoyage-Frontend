@@ -19,6 +19,7 @@ import {
   OrderDetail,
 } from '../../features/orders';
 import { AllCategory } from '../../features/categories';
+import AllAuthor from '../../features/authors/pages/AllAuthor';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ const App = () => {
           ></Route>
           <Route path="/books/bookList" element={<AdminBookList />}></Route>
           <Route path="/categories" element={<AllCategory />}></Route>
+          <Route path="/authors" element={<AllAuthor />}></Route>
         </Routes>
       </div>
       <Footer />

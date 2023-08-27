@@ -93,6 +93,13 @@ const Header = () => {
                   >
                     Categories
                   </li>
+                  <li
+                    style={{ cursor: 'pointer' }}
+                    className="dropdown-item"
+                    onClick={() => navigate('/authors')}
+                  >
+                    Authors
+                  </li>
                 </ul>
               </li>
             ) : (
