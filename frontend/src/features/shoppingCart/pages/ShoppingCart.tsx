@@ -35,7 +35,10 @@ const ShoppingCart = () => {
         <CartItemList />
       </div>
 
-      <div className="col-lg-6 col-12 p-4" style={{ fontWeight: 500 }}>
+      <div
+        className="col-lg-6 col-12 p-4"
+        style={{ fontWeight: 500, alignContent: 'center' }}
+      >
         <CartSummary />
       </div>
     </div>

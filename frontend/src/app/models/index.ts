@@ -5,6 +5,13 @@ import { CartItem } from './cartItem';
 import { ShoppingCart } from './shoppingCart';
 import { User, UserFormValues } from './user';
 import { ApiResponse } from './apiResponse';
+import {
+  Order,
+  OrderItem,
+  BookOrderedItem,
+  ShippingAddress,
+  OrderCreateForm,
+} from './order';
 
 export type {
   Author,
@@ -15,4 +22,9 @@ export type {
   User,
   ApiResponse,
   UserFormValues,
+  Order,
+  OrderItem,
+  BookOrderedItem,
+  ShippingAddress,
+  OrderCreateForm,
 };

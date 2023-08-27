@@ -14,6 +14,7 @@ import { decodeJwtToken } from '../../utility';
 import { setLoggedInUser } from '../../storage/redux/authSlice';
 import { RootState } from '../../storage/redux/store';
 import { Checkout } from '../../features/checkout';
+import { MyOrders, OrderDetail } from '../../features/orders';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,6 +47,11 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/*" element={<NotFound />}></Route>
           <Route path="/checkout" element={<Checkout />}></Route>
+          <Route path="/order/myOrders" element={<MyOrders />}></Route>
+          <Route
+            path="/order/orderDetail/:orderId"
+            element={<OrderDetail />}
+          ></Route>
         </Routes>
       </div>
       <Footer />

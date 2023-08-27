@@ -1,27 +1,16 @@
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 import { RootState } from '../../../storage/redux/store';
 import { CartItem } from '../../../app/models';
-import { FormEvent, useState } from 'react';
-import { MiniLoader } from '../../../app/layout';
+import { calculateCartTotal } from '../../../utility';
 
 const CartSummary = () => {
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const shoppingCartFromStore: CartItem[] = useSelector(
     (state: RootState) => state.shoppingCartStore.cartItems ?? []
   );
-  let subtotal = 0;
-  let totalItems = 0;
-
-  shoppingCartFromStore?.map((cartItem: CartItem) => {
-    totalItems += cartItem.quantity ?? 0;
-    subtotal += (cartItem.book?.unitPrice ?? 0) * (cartItem.quantity ?? 0);
-    return null;
-  });
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-  };
+  const { totalItems, subtotal } = calculateCartTotal(shoppingCartFromStore);
 
   return (
     <div className="border pb-5 pt-3">
@@ -31,15 +20,12 @@ const CartSummary = () => {
           <h5>No. items : {totalItems}</h5>
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
-        <button
-          type="submit"
-          className="btn btn-lg btn-success form-control mt-3"
-          disabled={loading}
-        >
-          {loading ? <MiniLoader /> : 'Place order'}
-        </button>
-      </form>
+      <button
+        className="btn btn-lg btn-dark form-control mt-3"
+        onClick={() => navigate('/checkout')}
+      >
+        Go to checkout
+      </button>
     </div>
   );
 };
