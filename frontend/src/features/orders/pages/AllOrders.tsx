@@ -1,10 +1,10 @@
-import { withAuth } from '../../../HOC';
-import { useGetAllOrderByUserQuery } from '../api/orderApi';
+import { withAdmin } from '../../../HOC';
+import { useGetAllOrderQuery } from '../api/orderApi';
 import OrderList from '../components/OrderList';
 import { Loading } from '../../../app/layout';
 
-const MyOrders = () => {
-  const { data, isLoading } = useGetAllOrderByUserQuery('Orders');
+const AllOrders = () => {
+  const { data, isLoading } = useGetAllOrderQuery('Orders');
   return (
     <>
       {isLoading && <Loading />}
@@ -13,4 +13,4 @@ const MyOrders = () => {
   );
 };
 
-export default withAuth(MyOrders);
+export default withAdmin(AllOrders);

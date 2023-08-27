@@ -56,7 +56,7 @@ const Checkout = () => {
     const response = await createOrder(userAddress);
     if ('data' in response) {
       toastNotify('Order created');
-      navigate('/orderSummary');
+      navigate('/order/orderConfirmed');
     } else {
       toastNotify('Error in creating the order', 'error');
     }

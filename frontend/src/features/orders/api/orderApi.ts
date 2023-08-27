@@ -21,10 +21,16 @@ const orderApi = createApi({
         invalidatesTags: ['Orders'],
       }),
     }),
-    // Get all orders
-    getAllOrders: builder.query({
+    // Get all orders by log in user
+    getAllOrderByUser: builder.query({
       query: () => ({
         url: `orders/users`,
+      }),
+    }),
+    // Get all orders
+    getAllOrder: builder.query({
+      query: () => ({
+        url: `orders`,
       }),
     }),
     // Get an order detail
@@ -34,12 +40,27 @@ const orderApi = createApi({
         providesTags: ['Orders'],
       }),
     }),
+    // Update order status
+    updateOrderStatus: builder.mutation({
+      query: (payload) => ({
+        url: `orders/${payload.orderId}`,
+        method: 'PUT',
+        body: payload,
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+        },
+        invalidatesTags: ['Orders'],
+      }),
+    }),
   }),
 });
 
 export const {
-  useGetAllOrdersQuery,
+  useGetAllOrderByUserQuery,
   useGetOrderDetailQuery,
   useCreateOrderMutation,
+  useGetAllOrderQuery,
+  useUpdateOrderStatusMutation,
 } = orderApi;
 export default orderApi;

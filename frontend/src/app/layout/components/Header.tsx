@@ -7,6 +7,7 @@ import {
   setLoggedInUser,
   userInitialState,
 } from '../../../storage/redux/authSlice';
+import { Roles } from '../../../utility';
 
 // Website's logo
 let logo = require('../../../assets/images/logo.png');
@@ -32,7 +33,7 @@ const Header = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        {/* <button
+        <button
           className="navbar-toggler"
           type="button"
           data-toggle="collapse"
@@ -42,7 +43,7 @@ const Header = () => {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon"></span>
-        </button> */}
+        </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto mb-2 mb-lg-0 w-100">
@@ -51,45 +52,53 @@ const Header = () => {
                 Home
               </NavLink>
             </li>
+            {/* If the user is admin, show admin panel */}
+            {currentUser.role === Roles.ADMIN ? (
+              <li className="nav-item dropdown">
+                <a
+                  className="nav-link dropdown-toggle"
+                  href="#"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Admin panel
+                </a>
+                <ul className="dropdown-menu">
+                  <li
+                    style={{ cursor: 'pointer' }}
+                    className="dropdown-item"
+                    onClick={() => navigate('/order/myOrders')}
+                  >
+                    My orders
+                  </li>
+                  <li
+                    style={{ cursor: 'pointer' }}
+                    className="dropdown-item"
+                    onClick={() => navigate('/order/allOrders')}
+                  >
+                    All orders
+                  </li>
+                </ul>
+              </li>
+            ) : (
+              <li className="nav-item ">
+                <NavLink
+                  className="nav-link"
+                  aria-current="page"
+                  to="/order/myOrders"
+                >
+                  Orders
+                </NavLink>
+              </li>
+            )}
+
+            {/* User's current shopping cart */}
             <li className="nav-item ">
               <NavLink className="nav-link" aria-current="page" to="/cart">
-                <i className="bi bi-cart"></i> {''}
+                <i className="bi bi-cart"></i>
                 {currentUser.id && `(${shoppingCartFromStore.length})`}
               </NavLink>
-            </li>
-            <li className="nav-item ">
-              <NavLink
-                className="nav-link"
-                aria-current="page"
-                to="/order/myOrders"
-              >
-                Orders
-              </NavLink>
-            </li>
-
-            <li className="nav-item dropdown">
-              <a
-                className="nav-link dropdown-toggle"
-                href="/"
-                id="navbarDropdown"
-                role="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                Admin panel
-              </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a className="dropdown-item" href="/">
-                  Action
-                </a>
-                <a className="dropdown-item" href="/">
-                  Another action
-                </a>
-                <a className="dropdown-item" href="/">
-                  Something else here
-                </a>
-              </div>
             </li>
             <div className="d-flex align-items-center justify-content-center w-100">
               {' '}
@@ -142,7 +151,7 @@ const Header = () => {
                   </li>
                   <li className="nav-item text-white">
                     <NavLink
-                      className="btn btn-secondary btn-outlined rounded-pill text-white mx-2"
+                      className="btn btn-secondary btn-outlined rounded-pill text-dark mx-2"
                       style={{ border: 'none', height: '40px', width: '100px' }}
                       to="/login"
                     >

@@ -18,7 +18,7 @@ const OrderList = ({ isLoading, orderData }: OrderListProps) => {
               <div className="col-3">Name</div>
               <div className="col-1">Total</div>
               <div className="col-1">Items</div>
-              <div className="col-2">Date</div>
+              <div className="col-2">Status</div>
               <div className="col-2"></div>
             </div>
             {orderData.map((order: Order, index: number) => {
@@ -28,9 +28,7 @@ const OrderList = ({ isLoading, orderData }: OrderListProps) => {
                   <div className="col-3">{order.shippingAddress.fullName}</div>
                   <div className="col-1">${order.subtotal!.toFixed(2)}</div>
                   <div className="col-1">{order.totalQuantity}</div>
-                  <div className="col-2">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                  </div>
+                  <div className="col-2">{order.orderStatus}</div>
                   <div className="col-2">
                     <button
                       className="btn btn-dark rounded-pill"
