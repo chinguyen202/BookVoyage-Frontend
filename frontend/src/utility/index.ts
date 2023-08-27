@@ -1,4 +1,4 @@
-import { baseUrl, Roles } from './constants';
+import { baseUrl, Roles, SortTypes, OrderStatus } from './constants';
 import inputHelper from './inputHelper';
 import { decodeJwtToken } from './jwtHelper';
 import toastNotify from './toastifyUtil';
@@ -11,4 +11,6 @@ export {
   toastNotify,
   Roles,
   calculateCartTotal,
+  SortTypes,
+  OrderStatus,
 };
