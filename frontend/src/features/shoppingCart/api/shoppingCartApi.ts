@@ -1,16 +1,20 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { baseUrl } from '../../../utility';
+import { getTokenFromLocalStorage } from '../../../utility/tokenHelper';
 
 const shoppingCartApi = createApi({
   reducerPath: 'shoppingCartApi',
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
+    headers: {
+      Authorization: `Bearer ${getTokenFromLocalStorage()}`,
+    },
   }),
   tagTypes: ['ShoppingCarts'],
   endpoints: (builder) => ({
-    getCartsByUserId: builder.query({
-      query: (userId) => ({
-        url: `cart/${userId}`,
+    getCartsByUser: builder.query({
+      query: () => ({
+        url: `cart`,
       }),
       providesTags: ['ShoppingCarts'],
     }),
@@ -21,6 +25,7 @@ const shoppingCartApi = createApi({
         body: payload,
         headers: {
           'Content-Type': 'application/json', // Set the Content-Type header
+          Authorization: `Bearer ${getTokenFromLocalStorage()}`,
         },
       }),
       invalidatesTags: ['ShoppingCarts'],
@@ -28,6 +33,6 @@ const shoppingCartApi = createApi({
   }),
 });
 
-export const { useGetCartsByUserIdQuery, useUpsertShoppingCartMutation } =
+export const { useGetCartsByUserQuery, useUpsertShoppingCartMutation } =
   shoppingCartApi;
 export default shoppingCartApi;

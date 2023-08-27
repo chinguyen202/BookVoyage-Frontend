@@ -60,10 +60,8 @@ const BookDetails = () => {
     if (payload !== null) {
       const response: any = await upsertShoppingCart(payload);
       if ('data' in response) {
-        // console.log('BOOK DETAIL RESPONSE: ', response);
         toastNotify('Added book to cart!');
       } else {
-        console.log('NOT SUCCESS :', response);
         toastNotify(response, 'error');
       }
     }
@@ -105,7 +103,7 @@ const BookDetails = () => {
               Published year: {data.yearOfPublished}
             </li>
           </ul>
-          <p style={{ fontSize: '20px', color: '#344e41' }} className="pt-2">
+          <p style={{ fontSize: '20px' }} className="pt-2">
             Summary
           </p>
           <p style={{ fontSize: '15px' }} className="pt-2">
@@ -128,7 +126,7 @@ const BookDetails = () => {
               style={{ fontSize: '25px', cursor: 'pointer' }}
             ></i>
           </span>
-          <div className="row pt-4">
+          <div className="row pt-4" style={{ marginBottom: '3rem' }}>
             <div className="col-5">
               {isAddingToCart ? (
                 <button disabled className="btn btn-success form-control">
@@ -136,7 +134,7 @@ const BookDetails = () => {
                 </button>
               ) : (
                 <button
-                  className="btn btn-success form-control"
+                  className="btn btn-dark form-control"
                   onClick={() => handleAddToCart(data.id)}
                 >
                   Add to cart
@@ -154,7 +152,12 @@ const BookDetails = () => {
           </div>
         </div>
         <div className="col-5">
-          <img src={data.imageUrl} width="100%" alt={data.title} />
+          <img
+            src={data.imageUrl}
+            width="80%"
+            style={{ marginLeft: '7rem', marginTop: '5rem' }}
+            alt={data.title}
+          />
         </div>
       </div>
     </div>
