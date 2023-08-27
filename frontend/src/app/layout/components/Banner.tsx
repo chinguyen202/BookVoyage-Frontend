@@ -1,6 +1,18 @@
+import { ChangeEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+
 import './styles/banner.css';
+import { setSearchItem } from '../../../storage/redux/bookSlice';
 
 const Banner = () => {
+  const [value, setValue] = useState('');
+  const dispatch = useDispatch();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchItem(e.target.value));
+    setValue(e.target.value);
+  };
+
   return (
     <div className="custom-banner">
       <div
@@ -13,6 +25,8 @@ const Banner = () => {
             className="form-control rounded-pill"
             style={{ width: '100%', padding: '20px 20px' }}
             placeholder="Search for books"
+            value={value}
+            onChange={handleChange}
           />
           <span style={{ position: 'relative', left: '-43px' }}>
             <i className="bi bi-search"></i>
