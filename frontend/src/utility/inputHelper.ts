@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 
 // Handling input change events and updating data
 const inputHelper = (
-  e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
   data: any
 ) => {
   const tempData: any = { ...data };

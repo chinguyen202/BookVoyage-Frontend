@@ -63,5 +63,11 @@ const categoryApi = createApi({
   }),
 });
 
-export const { useGetCategoriesQuery, useGetCategoryByIdQuery } = categoryApi;
+export const {
+  useGetCategoriesQuery,
+  useGetCategoryByIdQuery,
+  useCreateCategoryMutation,
+  useDeleteCategoryMutation,
+  useUpdateCategoryMutation,
+} = categoryApi;
 export default categoryApi;

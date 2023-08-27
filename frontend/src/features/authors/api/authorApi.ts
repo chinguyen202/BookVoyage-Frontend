@@ -36,7 +36,7 @@ const authorApi = createApi({
         invalidatesTags: ['Authors'],
       }),
     }),
-    // Update aauthor
+    // Update author
     updateAuthor: builder.mutation({
       query: (payload) => ({
         url: `authors/${payload.id}`,

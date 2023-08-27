@@ -1,10 +1,25 @@
+import { useNavigate } from 'react-router-dom';
 import { withAdmin } from '../../../HOC';
 import { Loading } from '../../../app/layout';
 import { Category } from '../../../app/models';
-import { useGetCategoriesQuery } from '../api/categoryApi';
+import {
+  useDeleteCategoryMutation,
+  useGetCategoriesQuery,
+} from '../api/categoryApi';
+import { toast } from 'react-toastify';
 
 const AllCategory = () => {
+  const navigate = useNavigate();
   const { data, isLoading } = useGetCategoriesQuery(null);
+  const [deleteCategory] = useDeleteCategoryMutation();
+  const handleDelete = (id: string) => () => {
+    console.log('Clicked');
+    toast.promise(deleteCategory(id), {
+      pending: 'Deleting...',
+      success: 'Deleted successfully',
+      error: 'Error when deleting',
+    });
+  };
   return (
     <>
       {isLoading && <Loading />}
@@ -12,7 +27,12 @@ const AllCategory = () => {
         <div className="table p-5">
           <div className="d-flex align-item-center justify-content-between">
             <h1 className="text-dark">Category list</h1>
-            <button className="btn btn-dark">Add new</button>
+            <button
+              className="btn btn-dark"
+              onClick={() => navigate('/categories/upsert')}
+            >
+              Add new
+            </button>
           </div>
           <div className="p-2">
             <div className="row border">
@@ -32,12 +52,25 @@ const AllCategory = () => {
                 <div className="col-2">
                   {new Date(category.modifiedAt).toLocaleString()}
                 </div>
-                <div className="col-2">
+                <div className="col-1">
                   <button className="btn btn-success">
-                    <i className="bi bi-pencil-fill"></i>
+                    <i
+                      className="bi bi-pencil-fill"
+                      onClick={() =>
+                        navigate('/categories/upsert/' + category.id)
+                      }
+                    ></i>
                   </button>
-                  <button className="btn btn-danger mx-2">
-                    <i className="bi bi-trash-fill"></i>
+                </div>
+                <div className="col-1">
+                  <button
+                    className="btn btn-danger mx-2"
+                    onClick={() => handleDelete(category.id)}
+                  >
+                    <i
+                      className="bi bi-trash-fill"
+                      onClick={() => handleDelete(category.id)}
+                    ></i>
                   </button>
                 </div>
               </div>

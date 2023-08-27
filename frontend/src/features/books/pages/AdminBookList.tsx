@@ -1,9 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import { withAdmin } from '../../../HOC';
 import { Loading } from '../../../app/layout';
 import { Book } from '../../../app/models';
 import { useGetBooksQuery } from '../api/bookApi';
 
 const AdminBookList = () => {
+  const navigate = useNavigate();
   const { data, isLoading } = useGetBooksQuery(null);
   return (
     <>
@@ -12,7 +14,12 @@ const AdminBookList = () => {
         <div className="table p-5">
           <div className="d-flex align-item-center justify-content-between">
             <h1 className="text-dark">Books list</h1>
-            <button className="btn btn-dark">Add new</button>
+            <button
+              className="btn btn-dark"
+              onClick={() => navigate('/books/bookUpsert')}
+            >
+              Add new
+            </button>
           </div>
           <div className="p-2">
             <div className="row border">
@@ -42,7 +49,10 @@ const AdminBookList = () => {
                 <div className="col-2">{book.category.name}</div>
                 <div className="col-2">
                   <button className="btn btn-success">
-                    <i className="bi bi-pencil-fill"></i>
+                    <i
+                      className="bi bi-pencil-fill"
+                      onClick={() => navigate('/books/bookUpsert/' + book.id)}
+                    ></i>
                   </button>
                   <button className="btn btn-danger mx-2">
                     <i className="bi bi-trash-fill"></i>

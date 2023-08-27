@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { Home, NotFound } from './index';
 import { Footer, Header } from './components';
-import { AdminBookList, BookDetails } from '../../features/books';
+import { AdminBookList, BookDetails, UpsertBook } from '../../features/books';
 import { useGetCartsByUserQuery } from '../../features/shoppingCart/api/shoppingCartApi';
 import { setShoppingCart } from '../../storage/redux/shoppingCartSlice';
 import { Checkout, ShoppingCart } from '../../features/shoppingCart';
@@ -18,8 +18,8 @@ import {
   OrderConfirmed,
   OrderDetail,
 } from '../../features/orders';
-import { AllCategory } from '../../features/categories';
-import AllAuthor from '../../features/authors/pages/AllAuthor';
+import { AllCategory, UpsertCategory } from '../../features/categories';
+import { UpsertAuthor, AllAuthor } from '../../features/authors';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -64,8 +64,23 @@ const App = () => {
             element={<OrderConfirmed />}
           ></Route>
           <Route path="/books/bookList" element={<AdminBookList />}></Route>
+          <Route
+            path="/books/bookUpsert/:bookId"
+            element={<UpsertBook />}
+          ></Route>
+          <Route path="/books/bookUpsert" element={<UpsertBook />}></Route>
           <Route path="/categories" element={<AllCategory />}></Route>
+          <Route
+            path="/categories/upsert/:categoryId"
+            element={<UpsertCategory />}
+          ></Route>
+          <Route path="/categories/upsert" element={<UpsertCategory />}></Route>
           <Route path="/authors" element={<AllAuthor />}></Route>
+          <Route
+            path="/authors/upsert/:authorId"
+            element={<UpsertAuthor />}
+          ></Route>
+          <Route path="/authors/upsert" element={<UpsertAuthor />}></Route>
         </Routes>
       </div>
       <Footer />

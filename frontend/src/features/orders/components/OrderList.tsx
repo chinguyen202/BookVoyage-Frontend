@@ -9,6 +9,7 @@ const OrderList = ({ isLoading, orderData }: OrderListProps) => {
   return (
     <>
       {isLoading && <Loading />}
+
       {!isLoading && (
         <div className="table p-5">
           <h1>Orders list</h1>
@@ -21,7 +22,7 @@ const OrderList = ({ isLoading, orderData }: OrderListProps) => {
               <div className="col-2">Status</div>
               <div className="col-2"></div>
             </div>
-            {orderData.map((order: Order, index: number) => {
+            {orderData?.map((order: Order, index: number) => {
               return (
                 <div className="row border" key={index}>
                   <div className="col-3">{order.id}</div>
