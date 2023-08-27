@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import { Home, NotFound } from './index';
 import { Footer, Header } from './components';
-import { BookDetails } from '../../features/books';
+import { AdminBookList, BookDetails } from '../../features/books';
 import { useGetCartsByUserQuery } from '../../features/shoppingCart/api/shoppingCartApi';
 import { setShoppingCart } from '../../storage/redux/shoppingCartSlice';
 import { Checkout, ShoppingCart } from '../../features/shoppingCart';
@@ -18,6 +18,7 @@ import {
   OrderConfirmed,
   OrderDetail,
 } from '../../features/orders';
+import { AllCategory } from '../../features/categories';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -61,6 +62,8 @@ const App = () => {
             path="/order/orderConfirmed"
             element={<OrderConfirmed />}
           ></Route>
+          <Route path="/books/bookList" element={<AdminBookList />}></Route>
+          <Route path="/categories" element={<AllCategory />}></Route>
         </Routes>
       </div>
       <Footer />

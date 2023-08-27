@@ -79,6 +79,20 @@ const Header = () => {
                   >
                     All orders
                   </li>
+                  <li
+                    style={{ cursor: 'pointer' }}
+                    className="dropdown-item"
+                    onClick={() => navigate('/books/bookList')}
+                  >
+                    Books
+                  </li>
+                  <li
+                    style={{ cursor: 'pointer' }}
+                    className="dropdown-item"
+                    onClick={() => navigate('/categories')}
+                  >
+                    Categories
+                  </li>
                 </ul>
               </li>
             ) : (
