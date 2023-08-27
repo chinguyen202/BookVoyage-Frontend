@@ -53,7 +53,7 @@ const Register = () => {
         // redirect to home
         navigate('/');
       } else {
-        // In case of error
+        // In case failure
         toastNotify(response.data.error, 'error');
       }
     }
