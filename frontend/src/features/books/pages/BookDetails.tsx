@@ -82,23 +82,20 @@ const BookDetails = () => {
             </span>
           </span>
           <span>
-            {data.authors.map((author: Author, index: number) => (
-              <span
-                key={index}
-                className="badge bg-light text-dark pt-2"
-                style={{ height: '40px', fontSize: '20px' }}
-              >
-                {author.fullName}
-              </span>
-            ))}
+            <span
+              className="badge bg-light text-dark pt-2"
+              style={{ height: '40px', fontSize: '20px' }}
+            >
+              {data.author.fullName}
+            </span>
           </span>
           <ul className="list-group">
             <li className="list-group-item">ISBN: {data.isbn}</li>
-            {data.authors.map((author: Author, index: number) => (
-              <li className="list-group-item" key={index}>
-                Publisher: {author.publisher}
-              </li>
-            ))}
+
+            <li className="list-group-item">
+              Publisher: {data.author.publisher}
+            </li>
+
             <li className="list-group-item">
               Published year: {data.yearOfPublished}
             </li>

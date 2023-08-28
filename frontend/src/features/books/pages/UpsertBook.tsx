@@ -18,7 +18,7 @@ const bookData: {
   summary: string;
   yearOfPublished: string;
   categoryId: string;
-  authorIds: string[];
+  authorId: string;
 } = {
   title: '',
   isbn: '',
@@ -27,7 +27,7 @@ const bookData: {
   summary: '',
   yearOfPublished: '',
   categoryId: '',
-  authorIds: [],
+  authorId: '',
 };
 
 const UpsertBook = () => {
@@ -53,17 +53,16 @@ const UpsertBook = () => {
         summary: data.summary,
         yearOfPublished: data.yearOfPublished,
         categoryId: data.category.id,
-        authorIds: data.authors.map((author: Author) => author.id),
+        authorId: data.author.id,
       };
       setBookInputs(tempData);
-      setSelectedAuthorIds(data.authors.map((author: Author) => author.id));
     }
   }, [data]);
-  const handleAuthorSelectionChange = (selectedIds: string[]) => {
-    setSelectedAuthorIds(selectedIds);
-    console.log(selectedAuthorIds);
-    setBookInputs((prevInputs) => ({ ...prevInputs, authorIds: selectedIds }));
-  };
+  // const handleAuthorSelectionChange = (selectedIds: string[]) => {
+  //   setSelectedAuthorIds(selectedIds);
+  //   console.log(selectedAuthorIds);
+  //   setBookInputs((prevInputs) => ({ ...prevInputs, authorIds: selectedIds }));
+  // };
   // Handle the user's input
   const handleDataInput = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -122,17 +121,15 @@ const UpsertBook = () => {
     formData.append('YearOfPublished', bookInputs.yearOfPublished);
     formData.append('File', imageToBeStore);
     formData.append('CategoryId', bookInputs.categoryId);
-    // Append multiple authorIds
-    selectedAuthorIds.forEach((authorId) => {
-      formData.append('AuthorIds', authorId);
-    });
+    formData.append('AuthorId', bookInputs.authorId);
+
     const response: any = await createBook(formData);
     console.log(response);
     if ('data' in response) {
       setLoading(false);
       navigate('/books/bookList');
     } else {
-      toastNotify(response.data.title, 'error');
+      toastNotify('Error in create book', 'error');
     }
     setLoading(false);
   };
@@ -222,11 +219,12 @@ const UpsertBook = () => {
             {authorList != null && (
               <select
                 className="form-control form-select mt-3"
-                multiple
-                value={selectedAuthorIds}
-                name="authorIds"
+                required
+                value={bookInputs.authorId}
+                name="authorId"
                 onChange={handleDataInput}
               >
+                <option value=""> --Select author --</option>
                 {authorList?.map((author: Author, index: number) => (
                   <option value={author.id} key={index}>
                     {author.fullName}
