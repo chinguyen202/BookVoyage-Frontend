@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../../../utility/constants';
 import { getTokenFromLocalStorage } from '../../../utility/tokenHelper';
 
 const categoryApi = createApi({
   reducerPath: 'categoryApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+    baseUrl: process.env.REACT_APP_BASE_URL,
   }),
   tagTypes: ['Categories'],
   endpoints: (builder) => ({

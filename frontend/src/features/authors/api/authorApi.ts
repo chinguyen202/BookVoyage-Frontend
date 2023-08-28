@@ -1,11 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { baseUrl } from '../../../utility';
 import { getTokenFromLocalStorage } from '../../../utility/tokenHelper';
 
 const authorApi = createApi({
   reducerPath: 'authorApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: baseUrl,
+    baseUrl: process.env.REACT_APP_BASE_URL,
   }),
   tagTypes: ['Authors'],
   endpoints: (builder) => ({
