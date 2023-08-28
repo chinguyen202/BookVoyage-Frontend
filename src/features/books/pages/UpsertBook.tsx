@@ -4,11 +4,16 @@ import { inputHelper, toastNotify } from '../../../utility';
 import { useGetCategoriesQuery } from '../../categories/api/categoryApi';
 import { useGetAuthorsQuery } from '../../authors/api/authorApi';
 import { Author, Category } from '../../../app/models';
-import { useCreateBookMutation, useGetBookByIdQuery } from '../api/bookApi';
+import {
+  useCreateBookMutation,
+  useGetBookByIdQuery,
+  useUpdateBookMutation,
+} from '../api/bookApi';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Loading } from '../../../app/layout';
-import AuthorMultiSelect from '../components/AuthorSelect';
+// Placeholder
+let placeholder = require('../../../assets/images/download.png');
 
 const bookData: {
   title: string;
@@ -33,7 +38,6 @@ const bookData: {
 const UpsertBook = () => {
   const navigate = useNavigate();
   const { bookId } = useParams();
-  const [selectedAuthorIds, setSelectedAuthorIds] = useState<string[]>([]);
   const [imageToBeStore, setImageToBeStore] = useState<any>();
   const [imageToBeDisplay, setImageToBeDisplay] = useState<any>();
   const [bookInputs, setBookInputs] = useState(bookData);
@@ -41,6 +45,7 @@ const UpsertBook = () => {
   const { data: categoryList } = useGetCategoriesQuery(null);
   const { data: authorList } = useGetAuthorsQuery(null);
   const [createBook] = useCreateBookMutation();
+  const [editBook] = useUpdateBookMutation();
   const { data } = useGetBookByIdQuery(bookId);
 
   useEffect(() => {
@@ -58,11 +63,7 @@ const UpsertBook = () => {
       setBookInputs(tempData);
     }
   }, [data]);
-  // const handleAuthorSelectionChange = (selectedIds: string[]) => {
-  //   setSelectedAuthorIds(selectedIds);
-  //   console.log(selectedAuthorIds);
-  //   setBookInputs((prevInputs) => ({ ...prevInputs, authorIds: selectedIds }));
-  // };
+
   // Handle the user's input
   const handleDataInput = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -103,7 +104,7 @@ const UpsertBook = () => {
       };
     }
   };
-
+  // Handle submit
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
@@ -123,21 +124,35 @@ const UpsertBook = () => {
     formData.append('CategoryId', bookInputs.categoryId);
     formData.append('AuthorId', bookInputs.authorId);
 
-    const response: any = await createBook(formData);
-    console.log(response);
-    if ('data' in response) {
+    if (bookId) {
+      // Edit book
+      const response: any = await editBook(formData);
+      console.log('EDIT BOOK', response);
+      if ('data' in response) {
+        setLoading(false);
+        navigate('/books/bookList');
+      } else {
+        toastNotify('Error in edit book', 'error');
+      }
       setLoading(false);
-      navigate('/books/bookList');
     } else {
-      toastNotify('Error in create book', 'error');
+      // Create book
+      const response: any = await createBook(formData);
+      console.log(response);
+      if ('data' in response) {
+        setLoading(false);
+        navigate('/books/bookList');
+      } else {
+        toastNotify('Error in create book', 'error');
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
     <div className="container border mt-5 p-5 bg-light">
       {loading && <Loading />}
-      <h3 className=" px-2 text-dark">Add book</h3>
+      <h3 className=" px-2 text-dark">{bookId ? 'Edit book' : 'Add book'}</h3>
       <form method="post" encType="multipart/form-data" onSubmit={handleSubmit}>
         <div className="row mt-3">
           <div className="col-md-5 ">
@@ -253,11 +268,26 @@ const UpsertBook = () => {
             </div>
           </div>
           <div className="col-md-5 text-center">
-            <img
-              src={imageToBeDisplay ?? 'https://placehold.co/400'}
-              style={{ width: '100%', borderRadius: '30px' }}
-              alt="placeholder"
-            />
+            {data && (
+              <img
+                src={data.imageUrl}
+                style={{ width: '100%', borderRadius: '30px' }}
+                alt="placeholder"
+              />
+            )}
+            {imageToBeDisplay ? (
+              <img
+                src={imageToBeDisplay}
+                style={{ width: '100%', borderRadius: '30px' }}
+                alt="placeholder"
+              />
+            ) : (
+              <img
+                src={placeholder}
+                style={{ width: '100%', borderRadius: '30px' }}
+                alt="placeholder"
+              />
+            )}
           </div>
         </div>
       </form>

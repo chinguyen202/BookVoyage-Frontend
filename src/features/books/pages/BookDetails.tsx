@@ -29,6 +29,7 @@ const BookDetails = () => {
 
   if (isLoading) return <Loading />;
   if (!data) return <NotFound />;
+  console.log('BOOK', data);
 
   // Handle the counter
   const handleQuantity = (counter: number) => {

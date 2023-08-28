@@ -175,7 +175,7 @@ const BookList = () => {
       </div>
       {books != null &&
         books.length > 0 &&
-        books?.map((book: Book, index: number) => (
+        books.map((book: Book, index: number) => (
           <BookCard book={book} key={index} />
         ))}
     </div>
