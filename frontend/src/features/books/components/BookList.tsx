@@ -40,7 +40,7 @@ const BookList = () => {
       dispatch(setBook(data));
       setBooks(data);
       const tempCategoryList = ['All'];
-      categoryList?.forEach((item: Category) => {
+      categoryList.forEach((item: Category) => {
         // If the temp array does not contain the category, add it
         if (tempCategoryList.indexOf(item.name) === -1) {
           tempCategoryList.push(item.name);

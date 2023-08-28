@@ -1,16 +1,23 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { inputHelper, toastNotify } from '../../../utility';
-import { useCreateAuthorMutation } from '../api/authorApi';
+import {
+  useCreateAuthorMutation,
+  useGetAuthorByIdQuery,
+} from '../api/authorApi';
 import { Loading } from '../../../app/layout';
 
 const UpsertAuthor = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const { authorId } = useParams();
+  const navigate = useNavigate();
+  const { data, isLoading } = useGetAuthorByIdQuery(authorId);
+  const [loading, setLoading] = useState(false);
   const [userInput, setUserInput] = useState({
-    fullName: '',
-    publisher: '',
+    fullName: data ? data.fullName : '',
+    publisher: data ? data.publisher : '',
   });
   const [createAuthor] = useCreateAuthorMutation();
-
   const handleUserInput = (e: ChangeEvent<HTMLInputElement>) => {
     const tempData = inputHelper(e, userInput);
     setUserInput(tempData);
@@ -18,29 +25,28 @@ const UpsertAuthor = () => {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+    setLoading(true);
     const author = {
       fullName: userInput.fullName,
       publisher: userInput.publisher,
     };
-    console.log(author);
     // Send the request to API
     const response: any = await createAuthor(author);
-    console.log(response);
     if ('data' in response) {
       toastNotify('Author added successfully!');
+      navigate(-1);
     } else {
       toastNotify('Fail to create author', 'error');
     }
-    setIsLoading(false);
+    setLoading(false);
   };
   return (
     <>
-      {isLoading && <Loading />}
+      {(isLoading || loading) && <Loading />}
       {!isLoading && (
         <div className="container text-center">
           <form method="post" onSubmit={handleSubmit}>
-            <h1 className="mt-5"> Add author</h1>
+            <h1 className="mt-5"> {authorId ? 'Edit author' : 'Add author'}</h1>
             <div className="col-sm-6 offset-sm-3 col-xs-12 ,t-4">
               <input
                 type="text"

@@ -6,19 +6,24 @@ import {
   useDeleteCategoryMutation,
   useGetCategoriesQuery,
 } from '../api/categoryApi';
-import { toast } from 'react-toastify';
+import { toastNotify } from '../../../utility';
+import { useState } from 'react';
 
 const AllCategory = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const { data, isLoading } = useGetCategoriesQuery(null);
   const [deleteCategory] = useDeleteCategoryMutation();
-  const handleDelete = (id: string) => () => {
-    console.log('Clicked');
-    toast.promise(deleteCategory(id), {
-      pending: 'Deleting...',
-      success: 'Deleted successfully',
-      error: 'Error when deleting',
-    });
+  const handleDelete = async (id: string) => {
+    try {
+      setLoading(true);
+      await deleteCategory(id);
+      toastNotify('Delete category success');
+      window.location.reload();
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
   };
   return (
     <>
@@ -38,39 +43,27 @@ const AllCategory = () => {
             <div className="row border">
               <div className="col-3">Id</div>
               <div className="col-2">Name</div>
-              <div className="col-2">Created Date</div>
-              <div className="col-2">Modified Date</div>
-              <div className="col-2">Action</div>
+              <div className="col-3">Created Date</div>
+              <div className="col-3">Modified Date</div>
+              <div className="col-1">Action</div>
             </div>
             {data.map((category: Category, index: number) => (
               <div className="row border" key={index}>
                 <div className="col-3">{category.id}</div>
                 <div className="col-2">{category.name}</div>
-                <div className="col-2">
+                <div className="col-3">
                   {new Date(category.createdAt).toLocaleString()}
                 </div>
-                <div className="col-2">
+                <div className="col-3">
                   {new Date(category.modifiedAt).toLocaleString()}
                 </div>
-                <div className="col-1">
-                  <button className="btn btn-success">
-                    <i
-                      className="bi bi-pencil-fill"
-                      onClick={() =>
-                        navigate('/categories/upsert/' + category.id)
-                      }
-                    ></i>
-                  </button>
-                </div>
+
                 <div className="col-1">
                   <button
                     className="btn btn-danger mx-2"
                     onClick={() => handleDelete(category.id)}
                   >
-                    <i
-                      className="bi bi-trash-fill"
-                      onClick={() => handleDelete(category.id)}
-                    ></i>
+                    <i className="bi bi-trash-fill"></i>
                   </button>
                 </div>
               </div>

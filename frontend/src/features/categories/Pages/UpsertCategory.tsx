@@ -3,24 +3,19 @@ import { toastNotify } from '../../../utility';
 import {
   useCreateCategoryMutation,
   useGetCategoryByIdQuery,
+  useUpdateCategoryMutation,
 } from '../api/categoryApi';
 import { Loading } from '../../../app/layout';
 import { useParams } from 'react-router-dom';
 
 const UpsertCategory = () => {
   const { categoryId } = useParams();
-  const [inputName, setInputName] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
   const [createCategory] = useCreateCategoryMutation();
-  const { data } = useGetCategoryByIdQuery(categoryId);
-
-  useEffect(() => {
-    if (data) {
-      const tempData = {
-        name: data.name,
-      };
-    }
-  }, [data]);
+  const [updateCategory] = useUpdateCategoryMutation();
+  const { data: category } = useGetCategoryByIdQuery(categoryId);
+  const [inputName, setInputName] = useState(category ? category.name : '');
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,12 +23,25 @@ const UpsertCategory = () => {
     const data = {
       name: inputName,
     };
-    const response: any = await createCategory(data);
-    if ('data' in response) {
-      toastNotify('Create category successfully');
+    if (categoryId != undefined) {
+      const response = await updateCategory({
+        id: categoryId,
+        name: inputName,
+      });
+      if ('data' in response) {
+        toastNotify('Update category successfully');
+      } else {
+        toastNotify('Fail to update category', 'error');
+      }
     } else {
-      toastNotify('Fail to create category', 'error');
+      const response: any = await createCategory(data);
+      if ('data' in response) {
+        toastNotify('Create category successfully');
+      } else {
+        toastNotify('Fail to create category', 'error');
+      }
     }
+
     setIsLoading(false);
   };
   return (
@@ -42,7 +50,9 @@ const UpsertCategory = () => {
       {!isLoading && (
         <div className="container text-center">
           <form method="post" onSubmit={handleSubmit}>
-            <h1 className="mt-5"> Add category</h1>
+            <h1 className="mt-5">
+              {categoryId ? 'Edit category' : 'Add category'}{' '}
+            </h1>
             <div className="col-sm-6 offset-sm-3 col-xs-12 ,t-4">
               <input
                 type="text"
@@ -61,7 +71,7 @@ const UpsertCategory = () => {
                 className="btn btn-dark"
                 style={{ width: '200px' }}
               >
-                Add category
+                Submit
               </button>
             </div>
           </form>
