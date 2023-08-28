@@ -1,46 +1,65 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# BookVoyage Frontend
 
-## Available Scripts
+## Goal: 
 
-In the project directory, you can run:
+Create an e-commerce website for books.
 
-### `npm start`
+## Demo link
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Table of contents
 
-### `npm run build`
+- [Technologies](#technologies)
+- [Features](#features)
+- [Future development](#future-development)
+- [Project Usage](#project-usage)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Technologies
+![React](https://img.shields.io/badge/React-v.18-blue)
+![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
+![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+1. Home page:
+   - Display all books on the website 
+   - Sort options:
+     - Price (highest - lowest)
+     - Price (lowest - highest)
+     - Name ( A-Z)
+     - Name ( Z-A)
+   - Search for books by name
+   - Filter books by category
+2. Admin pannel: accessed for admin only
+   -  My orders: display all order of admin
+   -  All orders: display all orders in database, show details of order, admin can change order status if the status is not confirmed.
+   -  Book List: display all book, function to add new book
+   -  Category List: display list of all categories and function to delete, add new category.
+   - Author List: display list of all authors and function to delete, add new author.
+3. My order pages
+   - Show the history of orders made by user.
+   - User can go to see the detail of order.
+4. Cart page:
+   - Display all the cart items with function to add or remove quantity or delete the item from cart
+   - It is empty if there is no items in cart
+   - Button to link to checkout page.
+5. Book detail page
+   - Show information of the book
+   - User can add to cart if log in.
+6. Checkout page
+   - Form for user to add the shipping address
+   - Button so user can make the order
+7. Order confirm page
+   - Display the confirmation if the order is created successfully.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Future development
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. More admin function
+2. Write more tests
+3. Optimize performance
+4. Implement stripe payment
+5. Implement inventory system
