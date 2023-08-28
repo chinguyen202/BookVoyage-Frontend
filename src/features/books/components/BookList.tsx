@@ -74,14 +74,10 @@ const BookList = () => {
     buttons.forEach((button, index) => {
       if (index === i) {
         button.classList.add('active');
-        if (index === 0) {
-          localCategory = 'All';
-        } else {
-          localCategory = categories[index];
-          setSelectedCategory(localCategory);
-          const tempArray = handleFilters(sortName, localCategory, searchValue);
-          setBooks(tempArray);
-        }
+        localCategory = categories[index];
+        setSelectedCategory(localCategory);
+        const tempArray = handleFilters(sortName, localCategory, searchValue);
+        setBooks(tempArray);
       } else {
         button.classList.remove('active');
       }
