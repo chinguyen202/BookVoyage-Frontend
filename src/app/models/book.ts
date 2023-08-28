@@ -11,5 +11,5 @@ export interface Book {
   yearOfPublished: number;
   imageUrl: string;
   category: Category;
-  authors: Author[];
+  author: Author;
 }

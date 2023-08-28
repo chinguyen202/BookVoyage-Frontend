@@ -2,14 +2,28 @@ import { useNavigate } from 'react-router-dom';
 import { withAdmin } from '../../../HOC';
 import { Loading } from '../../../app/layout';
 import { Book } from '../../../app/models';
-import { useGetBooksQuery } from '../api/bookApi';
+import { useDeleteBookMutation, useGetBooksQuery } from '../api/bookApi';
+import { useState } from 'react';
+import { toastNotify } from '../../../utility';
 
 const AdminBookList = () => {
   const navigate = useNavigate();
   const { data, isLoading } = useGetBooksQuery(null);
+  const [loading, setLoading] = useState(false);
+  const [deleteBook] = useDeleteBookMutation();
+  const handleDelete = async (id: string) => {
+    try {
+      setLoading(true);
+      await deleteBook(id);
+      toastNotify('Delete book success');
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   return (
     <>
-      {isLoading && <Loading />}
+      {(isLoading || loading) && <Loading />}
       {!isLoading && (
         <div className="table p-5">
           <div className="d-flex align-item-center justify-content-between">
@@ -54,7 +68,10 @@ const AdminBookList = () => {
                       onClick={() => navigate('/books/bookUpsert/' + book.id)}
                     ></i>
                   </button>
-                  <button className="btn btn-danger mx-2">
+                  <button
+                    className="btn btn-danger mx-2"
+                    onClick={() => handleDelete(book.id)}
+                  >
                     <i className="bi bi-trash-fill"></i>
                   </button>
                 </div>
