@@ -27,6 +27,14 @@ const BookList = () => {
   ];
   // Get search value
   const searchValue = useSelector((state: RootState) => state.bookStore.search);
+  // Define the number of categories per row
+  const categoriesPerRow = 5;
+
+  // Create an array of category rows
+  const categoryRows = [];
+  for (let i = 0; i < categories.length; i += categoriesPerRow) {
+    categoryRows.push(categories.slice(i, i + categoriesPerRow));
+  }
 
   useEffect(() => {
     if (data) {

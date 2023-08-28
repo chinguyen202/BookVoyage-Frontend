@@ -6,11 +6,11 @@ import {
   useUpdateCategoryMutation,
 } from '../api/categoryApi';
 import { Loading } from '../../../app/layout';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const UpsertCategory = () => {
   const { categoryId } = useParams();
-
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [createCategory] = useCreateCategoryMutation();
   const [updateCategory] = useUpdateCategoryMutation();
@@ -37,6 +37,7 @@ const UpsertCategory = () => {
       const response: any = await createCategory(data);
       if ('data' in response) {
         toastNotify('Create category successfully');
+        navigate(-1);
       } else {
         toastNotify('Fail to create category', 'error');
       }

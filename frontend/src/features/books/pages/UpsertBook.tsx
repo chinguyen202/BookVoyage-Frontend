@@ -46,21 +46,23 @@ const UpsertBook = () => {
   useEffect(() => {
     if (data) {
       const tempData = {
-        title: data.title,
-        isbn: data.isbn,
-        unitPrice: data.unitPrice,
+        title: data?.title,
+        isbn: data?.isbn,
+        unitPrice: data?.unitPrice,
         unitInStock: data.unitInStock,
         summary: data.summary,
         yearOfPublished: data.yearOfPublished,
         categoryId: data.category.id,
-        authorIds: data.authors.map((author: Author) => author.id), // Assuming authors is an array of Author objects
+        authorIds: data.authors.map((author: Author) => author.id),
       };
       setBookInputs(tempData);
+      setSelectedAuthorIds(data.authors.map((author: Author) => author.id));
     }
   }, [data]);
   const handleAuthorSelectionChange = (selectedIds: string[]) => {
     setSelectedAuthorIds(selectedIds);
     console.log(selectedAuthorIds);
+    setBookInputs((prevInputs) => ({ ...prevInputs, authorIds: selectedIds }));
   };
   // Handle the user's input
   const handleDataInput = (
@@ -112,7 +114,6 @@ const UpsertBook = () => {
       return;
     }
     const formData = new FormData();
-    formData.append('Id', '');
     formData.append('Title', bookInputs.title);
     formData.append('ISBN', bookInputs.isbn);
     formData.append('UnitPrice', bookInputs.unitPrice);
@@ -121,7 +122,10 @@ const UpsertBook = () => {
     formData.append('YearOfPublished', bookInputs.yearOfPublished);
     formData.append('File', imageToBeStore);
     formData.append('CategoryId', bookInputs.categoryId);
-    // formData.append('AuthorIds', bookInputs.authorIds);
+    // Append multiple authorIds
+    selectedAuthorIds.forEach((authorId) => {
+      formData.append('AuthorIds', authorId);
+    });
     const response: any = await createBook(formData);
     console.log(response);
     if ('data' in response) {
