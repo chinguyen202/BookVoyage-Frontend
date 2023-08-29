@@ -7,23 +7,26 @@ Create an e-commerce website for books.
 
 ## Demo link
 
-
-
+https://book-voyage-frontend.vercel.app/
 
 ## Table of contents
 
 - [Technologies](#technologies)
+- [User flow](#user-flow)
 - [Features](#features)
 - [Future development](#future-development)
-- [Project Usage](#project-usage)
+
 
 ## Technologies
 ![React](https://img.shields.io/badge/React-v.18-blue)
 ![Redux toolkit](https://img.shields.io/badge/RTK-v.1-purple)
 ![TypeScript](https://img.shields.io/badge/TypeScript-v.4-green)
 
-## Features
+## User flow
+![User flow](https://github.com/chinguyen202/BookVoyage-Frontend/assets/58989517/41935738-96d3-414b-8406-bf49aee414e9)
 
+
+## Features
 
 1. Home page:
    - Display all books on the website 
