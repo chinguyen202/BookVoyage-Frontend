@@ -5,15 +5,12 @@
 
 Create an e-commerce website for books.
 
-## Demo link
-
-https://book-voyage-frontend.vercel.app/
-
 ## Table of contents
 
 - [Technologies](#technologies)
 - [User flow](#user-flow)
 - [Features](#features)
+- [Project usage](#project-usage) 
 - [Future development](#future-development)
 
 
@@ -58,6 +55,25 @@ https://book-voyage-frontend.vercel.app/
    - Button so user can make the order
 7. Order confirm page
    - Display the confirmation if the order is created successfully.
+
+## Future development
+
+1. Check out page
+2. Write more tests
+3. Optimize performance
+
+## Project usage 
+
+In the project directory, you can run:
+
+### `npm install`
+
+Install all the dependencies
+
+### `npm start`
+
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Future development
 
